@@ -1,0 +1,89 @@
+/* Envelope container */
+.envelope {
+  position: relative;
+  width: 320px;
+  height: 220px;
+  cursor: pointer;
+  perspective: 1000px;
+}
+
+/* Bottom pocket (stays in place) */
+.envelope::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 65%;
+  background: #ff6b81;
+  clip-path: polygon(0 0, 50% 60%, 100% 0, 100% 100%, 0 100%);
+  z-index: 2;
+  border-radius: 0 0 8px 8px;
+}
+
+/* Letter (starts inside pocket) */
+.letter {
+  position: absolute;
+  width: 260px;
+  height: 170px;
+  left: 50%;
+  bottom: 30px;               /* start inside pocket */
+  transform: translateX(-50%);
+  background: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  text-align: center;
+  box-sizing: border-box;
+  transition: transform 0.8s ease, bottom 0.8s ease;
+  z-index: 1;
+}
+
+/* Slide letter up */
+.envelope.open .letter {
+  bottom: 140px;
+}
+
+/* Flap (top triangle) */
+.flap {
+  position: absolute;
+  inset: 0;
+  background: #e63946;
+  clip-path: polygon(0 0, 50% 60%, 100% 0);
+  transform-origin: top;
+  transition: transform 0.8s ease;
+  z-index: 3;
+}
+
+.envelope.open .flap {
+  transform: rotateX(180deg);
+}
+
+/* Letter should be behind the pocket when closed */
+.letter {
+  z-index: 1;            /* behind pocket */
+  bottom: 30px;         /* hidden inside */
+  transform: translateX(-50%);
+  opacity: 0;           /* optional: invisible when closed */
+}
+
+/* When opened, bring it up */
+.envelope.open .letter {
+  bottom: 140px;
+  opacity: 1;
+}
+
+.envelope {
+  overflow: hidden;
+}
+
+
+.envelope::before {
+  z-index: 2;
+}
+
+
+.flap {
+  z-index: 3;
+}
+
+

@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Valentine's Surprise - Large</title>
+    <style>
+        :root {
+            --bg-color: #0b0b1a;
+            --env-color: #ff5e6c;
+            --env-dark: #e04b59;
+            --letter-bg: #ffffff;
+            /* New Size Variables */
+            --env-width: 400px;
+            --env-height: 260px;
+            --photo-width: 180px;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden;
+            font-family: 'Arial', sans-serif;
+        }
+
+        .main-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 60px; /* Increased gap for larger sizes */
+            position: relative;
+        }
+
+        /* --- POLAROID PHOTOS (BIGGER) --- */
+        .photo-side {
+            width: var(--photo-width);
+            background: white;
+            padding: 12px 12px 40px 12px;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.6);
+            border-radius: 4px;
+            opacity: 0;
+            transform: scale(0.4) translateY(100px);
+            transition: all 0.9s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            z-index: 0;
+        }
+
+        .photo-side img {
+            width: 100%;
+            height: 200px; /* Bigger photo area */
+            object-fit: cover;
+            border: 1px solid #eee;
+        }
+
+        .left-photo { transform: rotate(-12deg) scale(0.4); }
+        .right-photo { transform: rotate(12deg) scale(0.4); }
+
+        .envelope-wrapper.open ~ .left-photo {
+            opacity: 1;
+            transform: rotate(-8deg) scale(1) translateX(-30px);
+        }
+
+        .envelope-wrapper.open ~ .right-photo {
+            opacity: 1;
+            transform: rotate(8deg) scale(1) translateX(30px);
+        }
+
+        /* --- ENVELOPE (BIGGER) --- */
+        .envelope-wrapper {
+            position: relative;
+            width: var(--env-width);
+            height: var(--env-height);
+            cursor: pointer;
+            z-index: 10;
+        }
+
+        .envelope-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-color: var(--env-dark);
+            border-radius: 8px;
+            z-index: 1;
+        }
+
+        .letter {
+            position: absolute;
+            top: 10px;
+            left: 15px;
+            width: 370px;
+            height: 240px;
+            background: var(--letter-bg);
+            border-radius: 10px;
+            padding: 25px;
+            box-sizing: border-box;
+            text-align: center;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+            z-index: 2;
+            transition: transform 0.7s ease-in-out;
+        }
+
+        .letter h2 { margin: 0 0 15px 0; font-size: 26px; color: #333; }
+        .letter p { font-size: 18px; color: #555; line-height: 1.5; }
+
+        .envelope-front {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-color: var(--env-color);
+            /* Updated polygon for bigger scale */
+            clip-path: polygon(0 0, 50% 50%, 100% 0, 100% 100%, 0 100%);
+            z-index: 3;
+            border-radius: 8px;
+        }
+
+        .flap {
+            position: absolute;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--env-color);
+            clip-path: polygon(0 0, 100% 0, 50% 50%);
+            transform-origin: top;
+            transition: transform 0.5s ease, z-index 0.5s;
+            z-index: 4;
+        }
+
+        /* Open States */
+        .envelope-wrapper.open .flap { 
+            transform: rotateX(180deg); 
+            z-index: 1; 
+        }
+        
+        .envelope-wrapper.open .letter { 
+            /* Moves the letter up higher since the envelope is taller */
+            transform: translateY(-180px); 
+            z-index: 5; 
+        }
+
+        /* Floating Hearts */
+        .heart {
+            position: absolute;
+            color: #ff5e6c;
+            animation: float 6s linear infinite;
+            z-index: -1;
+        }
+        @keyframes float {
+            0% { transform: translateY(110vh); opacity: 1; }
+            100% { transform: translateY(-10vh); opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="main-container">
+        
+        <div class="envelope-wrapper" onclick="this.classList.toggle('open')">
+            <div class="flap"></div>
+            <div class="envelope-back"></div>
+            <div class="letter">
+                <h2>Hello Love ❤️</h2>
+                <p>Hello Baby, My LOVE!</p>
+                <p>Happy Valentine's Day!</p>
+                <p style="font-weight: bold; color: var(--env-color);">✨ I Love You Always ✨</p>
+            </div>
+            <div class="envelope-front"></div>
+        </div>
+
+        <div class="photo-side left-photo">
+            <img src="aff93304-b24f-4450-9cc0-96b02aa070c9.jpg" alt="Photo 1">
+            <p style="text-align:center; font-size: 14px; margin-top: 15px; color: #555; font-style: italic;">Us ❤️</p>
+        </div>
+
+        <div class="photo-side right-photo">
+            <img src="Luxury12RedRoses1.jpg" alt="Photo 2">
+            <p style="text-align:center; font-size: 14px; margin-top: 15px; color: #555; font-style: italic;">I LOVE YOU ALWAYS ✨</p>
+        </div>
+
+    </div>
+
+    <script>
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.classList.add('heart');
+            heart.innerHTML = '❤️';
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.fontSize = (Math.random() * 15 + 15) + 'px'; /* Slightly bigger hearts */
+            heart.style.animationDuration = (Math.random() * 3 + 3) + 's';
+            document.body.appendChild(heart);
+            setTimeout(() => heart.remove(), 6000);
+        }
+        setInterval(createHeart, 400);
+    </script>
+
+</body>
+</html>
